@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        2021 Machine Learning Final Project - Forest fire detection - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@hackmd/emojify.js@2.1.0/dist/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important;position:relative}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p:last-child{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram,.markdown-body pre.vega{text-align:center;background-color:inherit;border-radius:0;white-space:inherit;overflow:visible}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code,.markdown-body pre.vega>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg,.markdown-body pre.vega>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p:last-child,.markdown-body .alert>ul:last-child{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.figma{display:table;position:relative;width:100%;padding-bottom:56.25%}.figma iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%;border:1px solid #eee}.MJX_Assistive_MathML{display:none}#MathJax_Message{z-index:1000!important}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc.both-mode{margin-left:8px}.ui-toc.both-mode .ui-toc-label{height:40px;padding:10px 4px;border-top-left-radius:0;border-bottom-left-radius:0}.ui-toc-label{background-color:#e6e6e6;border:none;color:#868686;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:20px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:50%;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-more-info{color:#888;cursor:pointer;vertical-align:middle}.ui-more-info .fa{font-size:16px}.ui-connectedGithub,.ui-published-note{color:#888}.ui-connectedGithub{line-height:23px;white-space:nowrap}.ui-connectedGithub a.file-path{color:#888;text-decoration:none;padding-left:22px}.ui-connectedGithub a.file-path:active,.ui-connectedGithub a.file-path:hover{color:#888;text-decoration:underline}.ui-connectedGithub .fa{font-size:20px}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}.selectable{-webkit-user-select:text;-o-user-select:text;user-select:text}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}.site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .site-ui-font{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em;font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><h1 id="2021-Machine-Learning-Final-Project---Forest-fire-detection" data-id="2021-Machine-Learning-Final-Project---Forest-fire-detection"><a class="anchor hidden-xs" href="#2021-Machine-Learning-Final-Project---Forest-fire-detection" title="2021-Machine-Learning-Final-Project---Forest-fire-detection"><span class="octicon octicon-link"></span></a><span>2021 Machine Learning Final Project - Forest fire detection</span></h1><p><span>0816064 吳中赫</span></p><h5 id="ps-因為檔案太大所以放在雲端：" data-id="ps-因為檔案太大所以放在雲端："><a class="anchor hidden-xs" href="#ps-因為檔案太大所以放在雲端：" title="ps-因為檔案太大所以放在雲端："><span class="octicon octicon-link"></span></a><span>p.s. 因為檔案太大所以放在雲端：</span></h5><p><a href="https://drive.google.com/drive/folders/1tlOIF-eUURTEMBceirZ5pUg8QxYRVPgg?usp=sharing" target="_blank" rel="noopener"><span>https://drive.google.com/drive/folders/1tlOIF-eUURTEMBceirZ5pUg8QxYRVPgg?usp=sharing</span></a></p><h2 id="I-Introduction" data-id="I-Introduction"><a class="anchor hidden-xs" href="#I-Introduction" title="I-Introduction"><span class="octicon octicon-link"></span></a><span>I. Introduction</span></h2><p><span>有鑑於近幾年，氣候變化越發劇烈，包括澳洲、阿爾及利亞、葡萄牙、加州等地點，發生森林火災的頻率也增加不少，所以我想利用現有的森林火災照片資料，實做一個realtime的森林火災偵測模型，只要將監控設備架在森林裡，這個模型會根據回傳影片的每個frame去預測目前可能發森森林火災的機率，以達到即時發現森林火災發生，並趕快派消防隊前往。</span><br>
+<span>會想要做這個的原因，其實是因為比起可能用什麼乾燥度、濕度、風向等等，火真的是用視覺來觀察會快也最直覺，但也不可能都派一個人在森林裡顧有沒有失火，所以用機器學習的方法解決感覺會很實用，而我也相信我這次實做出來的東西可以在現實中派上用場，而且其實也可以用再家用等其他地方(加多一點training data)，所以是個有趣又實用的題目。</span><br>
+<img src="https://i.imgur.com/y5q75w7.gif" alt="" loading="lazy"></p><h2 id="II-Data-Collection" data-id="II-Data-Collection"><a class="anchor hidden-xs" href="#II-Data-Collection" title="II-Data-Collection"><span class="octicon octicon-link"></span></a><span>II. Data Collection</span></h2><ul>
+<li><span>因為主要都是image data，所以除了有找到一個比較大的forest fire image dataset以外，我還有自己在其他網站挑一些我覺得適合的照片放進我的dataset，照片主要分為以下三類：</span>
+<ul>
+<li><span>包括正常森林沒有失火的照片。</span></li>
+<li><span>沒有拍到火源但有明顯煙霧的照片。</span></li>
+<li><span>森林失火的照片</span></li>
+</ul>
+</li>
+<li><span>application需要用到的video data，就是再以下網站找</span></li>
+<li><span>以下為照片來源來源網站。</span><br>
+<a href="https://data.mendeley.com/datasets/gjmr63rz2r/1" target="_blank" rel="noopener"><span>https://data.mendeley.com/datasets/gjmr63rz2r/1</span></a><br>
+<a href="https://www.pexels.com/zh-tw/search/forest%20fire/" target="_blank" rel="noopener"><span>https://www.pexels.com/zh-tw/search/forest fire/</span></a></li>
+</ul><h2 id="III-Preprocessing" data-id="III-Preprocessing"><a class="anchor hidden-xs" href="#III-Preprocessing" title="III-Preprocessing"><span class="octicon octicon-link"></span></a><span>III. Preprocessing</span></h2><ol>
+<li>
+<p><span>首先，先將data的資料夾分成以下結構，以方便我做後續處理。</span></p>
+<pre><code>Dataset
+└───Testing
+    └───fire
+    └───nofire
+└───Training and Validation
+    └───fire
+    └───nofire
+</code></pre>
+</li>
+<li>
+<p><span>fire, nofire個別先挑一張照片，並用cv的技巧把他show出來確認一下，值得一提的是，再show出來前要先將照片顏色從BGR換成RGB不然出來顏色會怪怪的，而且在之後做predict時，照片也要記得做這件事，不然會不準確。</span><br>
+<img src="https://i.imgur.com/51ViC0T.png" alt="" loading="lazy"><br>
+<img src="https://i.imgur.com/xG5JHC8.png" alt="" loading="lazy"></p>
+</li>
+<li>
+<p><span>正式進入preprocessing，因為我總共用了SVM, Random Forest, CNN，三種model，但前兩種的用sklearn實作，CNN則是用pytorch實作，所以需要的前處理不太一樣，以下分為兩部分來講</span></p>
+<h3 id="SVM-Random-Forest-Preprocessing" data-id="SVM-Random-Forest-Preprocessing"><a class="anchor hidden-xs" href="#SVM-Random-Forest-Preprocessing" title="SVM-Random-Forest-Preprocessing"><span class="octicon octicon-link"></span></a><span>SVM, Random Forest Preprocessing</span></h3>
+<ol>
+<li><span>因為sklearn的模型，可以直接丟pd.DataFrame()進去，所以我將照片統一轉為DataFrame的格式。</span></li>
+<li><span>所以首先，先將照片用 </span><strong><span>cv2.imread()</span></strong><span> 讀成array，並將其resize成 </span><strong><span>(224, 224, 3)</span></strong><span> ，最後將shape是 </span><strong><span>(224, 224, 3)</span></strong><span> 大小的，flat成一個一維的array。</span></li>
+<li><span>接著，因為剛剛已經分好fire, nofire的資料夾了，所以就根據這張image的來源，紀錄image label。</span></li>
+<li><span>所以最後就得到每張照片preprocessing後的array，將這些全部array記錄起來，轉成DataFrame的格式。</span></li>
+<li><span>用以上步驟對train image, test image各做一遍，最後得到df_train, df_test，以下為 </span><strong><span>df_train</span></strong><span> ， </span><strong><span>shape = (1527, 150529)</span></strong><span> 。</span></li>
+</ol>
+<pre><code>0	1	2	3	4	5	6	7	8	9	...	150519	150520	150521	150522	150523	150524	150525	150526	150527	label
+0	0.037742	0.038652	0.040433	0.049678	0.059899	0.078702	0.005660	0.007745	0.044874	0.006422	...	0.075018	0.067174	0.145606	0.078431	0.070588	0.149020	0.078431	0.070588	0.149020	fire
+1	0.012290	0.016387	0.100560	0.012369	0.016466	0.102648	0.013751	0.017980	0.113690	0.014803	...	0.092980	0.038078	0.085137	0.090879	0.035977	0.083036	0.090196	0.035294	0.082353	fire
+2	0.109655	0.184165	0.333185	0.116948	0.192744	0.341763	0.115467	0.197496	0.346516	0.124300	...	0.098613	0.137829	0.177044	0.099685	0.142139	0.174877	0.099685	0.142822	0.174195	fire
+3	0.002276	0.006893	0.058972	0.002197	0.007108	0.058623	0.001821	0.007108	0.058867	0.001821	...	0.023529	0.015686	0.062745	0.023529	0.015686	0.062745	0.023529	0.015686	0.062745	fire
+4	0.763796	0.701050	0.650070	0.764439	0.701694	0.650713	0.767556	0.704810	0.653830	0.769218	...	0.099150	0.224156	0.275298	0.152514	0.268169	0.325667	0.165297	0.279022	0.337846	fire
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+1522	0.191661	0.179897	0.160342	0.120200	0.108436	0.089580	0.149911	0.138147	0.118539	0.168118	...	0.135388	0.194344	0.162905	0.206239	0.258585	0.227212	0.166916	0.217896	0.186524	nofire
+1523	0.917901	0.925744	0.925744	0.907607	0.915450	0.915450	0.882884	0.890727	0.890727	0.854819	...	0.141356	0.239395	0.223708	0.054237	0.152276	0.136590	0.057686	0.155725	0.140039	nofire
+1524	0.319438	0.678174	0.580817	0.263081	0.578086	0.487115	0.284530	0.532206	0.453870	0.325625	...	0.198245	0.188126	0.144989	0.194366	0.193001	0.146625	0.241824	0.249212	0.202153	nofire
+1525	0.980392	0.984314	0.976471	0.980392	0.984314	0.976471	0.980392	0.984314	0.976471	0.980392	...	0.068540	0.060697	0.056775	0.073880	0.066036	0.062115	0.067857	0.060014	0.056092	nofire
+1526	0.991260	0.928515	0.904985	0.982038	0.919293	0.895763	0.968974	0.906229	0.882699	0.959191	...	0.124227	0.195769	0.184004	0.085295	0.142325	0.133799	0.156968	0.208176	0.200333	nofire
+1527 rows × 150529 columns
+</code></pre>
+<ol start="6">
+<li><span>接著用train_test_split()，將剛剛得到的df_train,分成train和validation，再個別分成X, y，這樣preprocessing就完成了。</span></li>
+</ol>
+<h3 id="CNN-Preprocessing" data-id="CNN-Preprocessing"><a class="anchor hidden-xs" href="#CNN-Preprocessing" title="CNN-Preprocessing"><span class="octicon octicon-link"></span></a><span>CNN Preprocessing</span></h3>
+<ol>
+<li><span>Pytorch的模型Input需要dtype = tensor，所以我們要先將image轉成tensor。</span></li>
+<li><span>首先用 </span><strong><span>torchvision.transforms.Compose</span></strong><span> 將Train image, Test image轉換成shape = (224, 224, 3),再用 </span><strong><span>torchvision.datasets.ImageFolder</span></strong><span> 分好fire, nofire，得到train_val_data, test_data。</span></li>
+<li><span>再用 </span><strong><span>torch.utils.data.random_split()</span></strong><span> 把剛剛的train_val_data分成train_data, val_data，(其實就是train_test_split)。</span></li>
+<li><span>最後用 </span><strong><span>torch.utils.data.dataloader()</span></strong><span> 將剛剛的train_data, val_data, test_data，轉為一個一個batch的dataloader形式，並shuffle。這樣CNN Preprocessing就完成了。</span></li>
+</ol>
+</li>
+</ol><h2 id="IV-Models" data-id="IV-Models"><a class="anchor hidden-xs" href="#IV-Models" title="IV-Models"><span class="octicon octicon-link"></span></a><span>IV. Models</span></h2><ul>
+<li>
+<h3 id="Random-Forest" data-id="Random-Forest"><a class="anchor hidden-xs" href="#Random-Forest" title="Random-Forest"><span class="octicon octicon-link"></span></a><span>Random Forest</span></h3>
+<span>用sklearm的 RandomForestClassifier建立n_estimator=30(也就是5棵樹)，max_depth=30的Random Forest。</span></li>
+<li>
+<h3 id="SVM" data-id="SVM"><a class="anchor hidden-xs" href="#SVM" title="SVM"><span class="octicon octicon-link"></span></a><span>SVM</span></h3>
+<span>用sklearn的SVC，kernel=linear建立，SVM Classifier模型。</span></li>
+<li>
+<h3 id="CNN" data-id="CNN"><a class="anchor hidden-xs" href="#CNN" title="CNN"><span class="octicon octicon-link"></span></a><span>CNN</span></h3>
+<h4 id="Model" data-id="Model"><a class="anchor hidden-xs" href="#Model" title="Model"><span class="octicon octicon-link"></span></a><span>Model</span></h4>
+<ol>
+<li><span>因為Foreset Fire Detection，其實就是將影片裡的每個frame做fire, nofire的分類，所以比起一般的ANN我採用適合圖片的CNN，而我使用的框架是pytorch。</span></li>
+<li><span>首先建立一個Class CNNModel，並繼承pytorch nn.Module可以用的function，接著以下分為兩部分：</span>
+<ul>
+<li>
+<p><span>Init：建立之後forward會用到那些層和激發函數。</span></p>
+<ul>
+<li><span>因為原本照片的input shape = (224, 224, 3)，所以一開始Convolutional layer的input channel = 3</span></li>
+<li><span>接著做激發函數，再來做maxpooling，用意是將進來的input縮小，有抗雜訊的功用。</span></li>
+<li><span>之後再做第二層CNN，最後用nn.Linear輸出平滑的結果，這個結果會是ex.[4, -3]，意思就是取大的就是那一個index當作預測結果，而nn.Linear裡的參數(8</span><em><span>50</span></em><span>50)，也就是經過上面所有計算得出的shape。</span></li>
+</ul>
+<pre><code>def __init__(self):
+        super(CNN_Model, self).__init__()
+
+        self.cnn1 = nn.Conv2d(3, 16, kernel_size=5, stride = 1)
+        self.relu1 = nn.ReLU(inplace=True)
+        self.maxpool1 = nn.MaxPool2d(kernel_size=2)
+
+        self.cnn2 = nn.Conv2d(16, 8, kernel_size=11, stride = 1)
+        self.relu2 = nn.ReLU(inplace=True)
+        self.maxpool2 = nn.MaxPool2d(kernel_size=2)
+
+        self.fc = nn.Linear(8*50*50, 2)
+</code></pre>
+</li>
+<li>
+<p><span>forward：進來的Input要怎麼走。</span></p>
+<pre><code>def forward(self, x):
+    x = self.cnn1(x)
+    x = self.relu1(x)
+    x = self.maxpool1(x)
+    x = self.cnn2(x)
+    x = self.relu2(x)
+    x = self.maxpool2(x)
+    x = x.view(x.size(0), -1)
+    x = self.fc(x)
+return x
+</code></pre>
+</li>
+</ul>
+</li>
+<li><span>接著因為Pytorch有提供可以用GPU做運算，所以使用</span><strong><a href="http://model.to" target="_blank" rel="noopener"><span>model.to</span></a><span>(device)</span></strong><span>，device則是當可以使用GPU時就是GPU，不能使用時就用CPU。</span></li>
+</ol>
+<h4 id="Train-Validation" data-id="Train-Validation"><a class="anchor hidden-xs" href="#Train-Validation" title="Train-Validation"><span class="octicon octicon-link"></span></a><span>Train, Validation</span></h4>
+<ol>
+<li><span>首先，因為是做classification，所以採用先設定</span><strong><span>loss_fn = nn.CrossEntropy</span></strong><span>，</span><strong><span>optimizer</span></strong><span>則採用Adam。</span></li>
+<li><span>接著用</span><strong><span>def train</span></strong><span>，把剛剛preprocessed data，以batch為單位進行train，再用</span><strong><span>def val</span></strong><span>進行驗證。</span></li>
+<li><span>以epoch = 5，訓練剛剛的資料集。</span></li>
+</ol>
+</li>
+</ul><h2 id="V-Application" data-id="V-Application"><a class="anchor hidden-xs" href="#V-Application" title="V-Application"><span class="octicon octicon-link"></span></a><span>V. Application</span></h2><p><span>application主要是把我的Web Cam真的當作放在森林裡的相機，但因為我身邊沒有真的森林所以除了真的打開電腦的相機以外，還可以用將影片輸入的方式，去判斷這個影片是否有forest fire的情況。</span></p><ol>
+<li><span>用cv2.VideoCapture將影片讀入，然後再以read()的方式將影片變成一張一張的frame，而這時的frame其實就是一張照片，那我們將照片再用上述CNN Preprocessing的方式，轉成pytorch要求的格式，這時候就可以丟進model predict了。</span></li>
+<li><span>predict完後，將結果丟入softmax()轉成相加機率為一的結果，並取機率較大的label就會是我們預測的結果。</span></li>
+<li><span>將最終得到的機率、label，用cv2.putText()放在每張frame上，接著用cv2.imshow()，就可以印出一張張frame，其實就是撥放影片了。</span></li>
+<li><span>最後將這個影片存成.mp4檔就會得到結果。</span></li>
+</ol><h2 id="VI-Results" data-id="VI-Results"><a class="anchor hidden-xs" href="#VI-Results" title="VI-Results"><span class="octicon octicon-link"></span></a><span>VI. Results</span></h2><p><span>Result的部分，分別以validation data, test data, forest fire video, web cam, 四個部分做比較。而模型如果採用Random Forest和SVM，因為在input傳進傳前，要先做較大量的preprocessing，才能正常運行，而這會耗費大量時間導致每張frame會顯示得特別慢，也就是影片會lag，所以就不做forest fire video, web cam的result。</span></p><ul>
+<li>
+<h3 id="SVM1" data-id="SVM"><a class="anchor hidden-xs" href="#SVM1" title="SVM1"><span class="octicon octicon-link"></span></a><span>SVM</span></h3>
+</li>
+</ul><pre><code>##### SVM Validation #####
++--------+--------------------+--------------------+--------------------+
+| label  |      Accuracy      |     Precision      |       Recall       |
++--------+--------------------+--------------------+--------------------+
+|  fire  | 0.9385964912280702 | 0.9344262295081968 |        0.95        |
+| nofire | 0.9385964912280702 | 0.9433962264150944 | 0.9259259259259259 |
++--------+--------------------+--------------------+--------------------+
+     0    1
+0  228   12
+1   16  200
+##### SVM Test #####
++--------+-------------------+--------------------+--------------------+
+| label  |      Accuracy     |     Precision      |       Recall       |
++--------+-------------------+--------------------+--------------------+
+|  fire  | 0.868421052631579 | 0.8535353535353535 | 0.8894736842105263 |
+| nofire | 0.868421052631579 | 0.8846153846153846 | 0.8473684210526315 |
++--------+-------------------+--------------------+--------------------+
+     0    1
+0  169   21
+1   29  161
+</code></pre><ul>
+<li>
+<h3 id="Random-Forest1" data-id="Random-Forest"><a class="anchor hidden-xs" href="#Random-Forest1" title="Random-Forest1"><span class="octicon octicon-link"></span></a><span>Random Forest</span></h3>
+</li>
+</ul><pre><code>##### Random Forest Validation #####
++--------+--------------------+--------------------+--------------------+
+| label  |      Accuracy      |     Precision      |       Recall       |
++--------+--------------------+--------------------+--------------------+
+|  fire  | 0.9013157894736842 | 0.925764192139738  | 0.8833333333333333 |
+| nofire | 0.9013157894736842 | 0.8766519823788547 | 0.9212962962962963 |
++--------+--------------------+--------------------+--------------------+
+     0    1
+0  212   28
+1   17  199
+##### Random Forest Test #####
++--------+--------------------+--------------------+--------------------+
+| label  |      Accuracy      |     Precision      |       Recall       |
++--------+--------------------+--------------------+--------------------+
+|  fire  | 0.8236842105263158 | 0.8435754189944135 | 0.7947368421052632 |
+| nofire | 0.8236842105263158 | 0.8059701492537313 | 0.8526315789473684 |
++--------+--------------------+--------------------+--------------------+
+     0    1
+0  151   39
+1   28  162
+</code></pre><ul>
+<li>
+<h3 id="CNN1" data-id="CNN"><a class="anchor hidden-xs" href="#CNN1" title="CNN1"><span class="octicon octicon-link"></span></a><span>CNN</span></h3>
+</li>
+</ul><pre><code>##### CNN Validation #####
++--------+--------------------+--------------------+--------------------+
+| label  |      Accuracy      |     Precision      |       Recall       |
++--------+--------------------+--------------------+--------------------+
+|  fire  | 0.9320175438596491 | 0.8863636363636364 | 0.9957446808510638 |
+| nofire | 0.9320175438596491 | 0.9947916666666666 | 0.8642533936651584 |
++--------+--------------------+--------------------+--------------------+
+     0    1
+0  234    1
+1   30  191
+##### CNN Test #####
++--------+--------------------+--------------------+--------------------+
+| label  |      Accuracy      |     Precision      |       Recall       |
++--------+--------------------+--------------------+--------------------+
+|  fire  | 0.8868421052631579 | 0.8237885462555066 | 0.9842105263157894 |
+| nofire | 0.8868421052631579 | 0.9803921568627451 | 0.7894736842105263 |
++--------+--------------------+--------------------+--------------------+
+     0    1
+0  187    3
+1   40  150
+</code></pre><ul>
+<li>
+<h5 id="那我們隨機挑兩張照片來看看預測結果如何" data-id="那我們隨機挑兩張照片來看看預測結果如何"><a class="anchor hidden-xs" href="#那我們隨機挑兩張照片來看看預測結果如何" title="那我們隨機挑兩張照片來看看預測結果如何"><span class="octicon octicon-link"></span></a><span>那我們隨機挑兩張照片來看看預測結果如何!</span></h5>
+</li>
+</ul><p><img src="https://i.imgur.com/51ViC0T.png" alt="" loading="lazy"><br>
+<code>The image is predicted to be 99.48% fire</code><br>
+<img src="https://i.imgur.com/xG5JHC8.png" alt="" loading="lazy"><br>
+<code>The image is predicted to be 99.94% nofire</code><br>
+<span>以上的x% fire/ no fire，則是在把predict後的輸出丟進softmax()裡，他會轉換成相加=1的機率，再取大的就行了。</span></p><ul>
+<li>
+<h5 id="接著就進入我們的重頭戲，video-detection-和webcam-detection-的結果" data-id="接著就進入我們的重頭戲，video-detection-和webcam-detection-的結果"><a class="anchor hidden-xs" href="#接著就進入我們的重頭戲，video-detection-和webcam-detection-的結果" title="接著就進入我們的重頭戲，video-detection-和webcam-detection-的結果"><span class="octicon octicon-link"></span></a><span>接著就進入我們的重頭戲，video detection 和webcam detection 的結果!</span></h5>
+<a href="https://youtu.be/cfWlatcAi2I" target="_blank" rel="noopener"><span>https://youtu.be/cfWlatcAi2I</span></a><span> (這個因為用了Discovery的素材所以可能開不了)</span><br>
+<a href="https://youtu.be/riqoDSZ5Hs8" target="_blank" rel="noopener"><span>https://youtu.be/riqoDSZ5Hs8</span></a><span> (可以幫我留言按讚)</span></li>
+</ul><h2 id="VII-Conclusion" data-id="VII-Conclusion"><a class="anchor hidden-xs" href="#VII-Conclusion" title="VII-Conclusion"><span class="octicon octicon-link"></span></a><span>VII. Conclusion</span></h2><ul>
+<li><span>三個model的比較：</span>
+<ul>
+<li><span>CNN在三個model中無庸置疑是最準的，而SVM又比Random Forest好一些，我這次採用的SVM kernel = linear，所以如果是用kernel改用poly搭配grid search，我猜效果一定會更好，但礙於時間一定會拉得很長所以就沒有採用了。</span></li>
+<li><span>除此之外，如果選用SVM或Random Forest，前處理需要將三維數值先resize，然後在flat後，轉成df，preprocessing的時間高得嚇人，沒辦法即時的predict每個frame，但這就違背本次project想要做到的即時detection。再加上sklearn好像又不支援用GPU跑，可見Pytorch CNN的好啊!</span></li>
+</ul>
+</li>
+<li><span>How robust my models are?</span>
+<ul>
+<li><span>僅談論CNN model，我認未如果是設想情況將camera放在一片森林裡(架高一點)，我的model從只有煙霧到真的發生火災都可以很快的預測到，可以看result影片。</span></li>
+<li><span>目前想到的缺點可能就是不能放在楓葉林裡吧，因為我的train data主要是拿正常的綠色森林去作比對，但楓葉林這種感覺就要特別作另一個model去預測可能才會比較準，所以就一般森林而言我的model算滿實用的。</span></li>
+</ul>
+</li>
+</ul><p><a href="https://hackmd.io/GvUekqfbQ56OZ9l-FbRoUw#" target="_blank" rel="noopener"><span>https://hackmd.io/GvUekqfbQ56OZ9l-FbRoUw#</span></a></p></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li><a href="#2021-Machine-Learning-Final-Project---Forest-fire-detection" title="2021 Machine Learning Final Project - Forest fire detection">2021 Machine Learning Final Project - Forest fire detection</a><ul class="nav">
+<li><a href="#I-Introduction" title="I. Introduction">I. Introduction</a></li>
+<li><a href="#II-Data-Collection" title="II. Data Collection">II. Data Collection</a></li>
+<li><a href="#III-Preprocessing" title="III. Preprocessing">III. Preprocessing</a></li>
+<li><a href="#IV-Models" title="IV. Models">IV. Models</a></li>
+<li><a href="#V-Application" title="V. Application">V. Application</a></li>
+<li><a href="#VI-Results" title="VI. Results">VI. Results</a></li>
+<li><a href="#VII-Conclusion" title="VII. Conclusion">VII. Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li><a href="#2021-Machine-Learning-Final-Project---Forest-fire-detection" title="2021 Machine Learning Final Project - Forest fire detection">2021 Machine Learning Final Project - Forest fire detection</a><ul class="nav">
+<li><a href="#I-Introduction" title="I. Introduction">I. Introduction</a></li>
+<li><a href="#II-Data-Collection" title="II. Data Collection">II. Data Collection</a></li>
+<li><a href="#III-Preprocessing" title="III. Preprocessing">III. Preprocessing</a></li>
+<li><a href="#IV-Models" title="IV. Models">IV. Models</a></li>
+<li><a href="#V-Application" title="V. Application">V. Application</a></li>
+<li><a href="#VI-Results" title="VI. Results">VI. Results</a></li>
+<li><a href="#VII-Conclusion" title="VII. Conclusion">VII. Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">全部展開</a><a class="back-to-top" href="#">回到頂部</a><a class="go-to-bottom" href="#">移至底部</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
